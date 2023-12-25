@@ -1,21 +1,27 @@
-function hasNumberChecker() {
-  return /[0-9]/
+function hasNumberChecker(input: string) {
+  return /[0-9]/.test(input)
 }
 
-function hasSpecialCharChecker() {
-  return /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/;
+function hasSpecialCharChecker(input: string) {
+  return /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(input)
 }
 
-function hasUpperCaseChecker() {
-  return /[A-Z]/
+function hasUpperCaseChecker(input: string) {
+  return /[A-Z]/.test(input)
 }
 
-function hasConsecutiveLetterChecker() {
-  return /[a-zA-Z]{2,}/
+function hasNoConsecutiveLetterChecker(input: string) {
+  if(!input.length){
+    return false
+  }
+  if(/[a-zA-Z]{2,}/.test(input)){
+    return false
+  }
+  return true
 }
 
 export {
-  hasConsecutiveLetterChecker,
+  hasNoConsecutiveLetterChecker,
   hasNumberChecker,
   hasSpecialCharChecker,
   hasUpperCaseChecker,
