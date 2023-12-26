@@ -3,9 +3,10 @@
  */
 
 import { expect, describe, it, vi } from 'vitest';
-import { render, userEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import PasswordField from '../PasswordField';
-import { hasNumberChecker } from '../checkers';
+import { hasNumberChecker, hasUpperCaseChecker } from '../checkers';
 import { PasswordFieldProps } from '../PasswordField/types';
 
 function Component(props: PasswordFieldProps) {
@@ -37,7 +38,9 @@ describe('Password Field component', () => {
     expect(inputField).toBeInTheDocument();
   });
 
-  it('should change checker status correctly', () => {
+  it('should change checker status correctly', async () => {
+    const user = userEvent.setup();
+
     const props = {
       passwordReqs: {
         numberReq: {
@@ -45,17 +48,37 @@ describe('Password Field component', () => {
           description: 'has a number 0-9',
           checker: hasNumberChecker,
         },
+        upperCase: {
+          id: crypto.randomUUID(),
+          description: 'has an upper case letter',
+          checker: hasUpperCaseChecker,
+        },
       },
     };
 
-    const { getByRole } = render(Component(props));
-    const numericRequirement = getByRole('listitem');
+    const { getByRole, getAllByRole } = render(Component(props));
+    const numericRequirement = getAllByRole('listitem');
     const inputField = getByRole('textbox');
 
-    expect(numericRequirement).toBeInTheDocument();
+    expect(numericRequirement).toHaveLength(2);
     expect(inputField).toBeInTheDocument();
 
-    expect(numericRequirement).toHaveTextContent('❌');
-    expect(numericRequirement).toHaveTextContent(/has a number 0-9/i);
+    expect(numericRequirement[0]).toHaveTextContent('❌');
+    expect(numericRequirement[0]).toHaveTextContent(/has a number 0-9/i);
+
+    expect(numericRequirement[1]).toHaveTextContent('❌');
+    expect(numericRequirement[1]).toHaveTextContent(
+      /has an upper case letter/i
+    );
+
+    await user.click(inputField);
+    await user.keyboard('he110 w0r1d');
+
+    expect(numericRequirement[0]).toHaveTextContent('✅');
+    expect(numericRequirement[1]).toHaveTextContent('❌');
+
+    await user.click(inputField);
+    await user.keyboard('he110 w0r1D');
+    expect(numericRequirement[1]).toHaveTextContent('✅');
   });
 });
