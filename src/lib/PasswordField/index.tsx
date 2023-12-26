@@ -6,15 +6,9 @@ export default function PasswordField({
   passwordReqs,
   className,
 }: PasswordFieldProps) {
-  // const descriptions = Object.values(passwordReqs).map(
-  //   ({ description }) => description
-  // );
-
   const [password, setPassword] = React.useState('');
 
   const requirements = Object.values(passwordReqs);
-
-  // const checkers = Object.values(passwordReqs).map(({ checker }) => checker);
 
   function onUserType(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);

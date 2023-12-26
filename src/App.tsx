@@ -1,4 +1,4 @@
-import PasswordField from './components/PasswordField';
+import PasswordField from './lib/PasswordField';
 import {
   hasNoConsecutiveLetterChecker,
   hasNumberChecker,

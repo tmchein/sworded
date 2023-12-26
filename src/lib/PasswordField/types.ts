@@ -3,7 +3,7 @@ import {
   hasNoConsecutiveLetterChecker,
   hasSpecialCharChecker,
   hasUpperCaseChecker,
-} from '../../lib/checkers';
+} from '../checkers';
 
 export interface PasswordFieldProps {
   passwordReqs: Requirements;
