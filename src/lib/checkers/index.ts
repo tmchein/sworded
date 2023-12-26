@@ -3,7 +3,7 @@ function hasNumberChecker(input: string) {
 }
 
 function hasSpecialCharChecker(input: string) {
-  return /[!@#$%^&*'"()_+{}[\]:;<>,.?~\\/-]/.test(input)
+  return /[!@#$%^&*'"()_=¡¿+{}[\]:;<>,.?~\\/-]/.test(input)
 }
 
 function hasUpperCaseChecker(input: string) {
