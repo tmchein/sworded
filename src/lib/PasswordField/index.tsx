@@ -27,17 +27,14 @@ export default function PasswordField({
           name="passwordField"
         />
       </aside>
-      <aside
-        aria-aria-label="List of password checks"
-        className={style.checklist}
-      >
+      <ul aria-label="List of password checks" className={style.checklist}>
         {requirements.map(({ id, description, checker }) => (
-          <section key={id}>
+          <li key={id}>
             <span>{checker(password) ? '✅' : '❌'}</span>
-            <p>{description}</p>
-          </section>
+            <p aria-label="Password check description">{description}</p>
+          </li>
         ))}
-      </aside>
+      </ul>
     </article>
   );
 }
