@@ -1,30 +1,90 @@
-# React + TypeScript + Vite
+# Sworded
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Having trouble managing a set of rules for your password fields? Sworded brings support for developers to implement an easy password field that keeps standard all along the application.
 
-Currently, two official plugins are available:
+## Assumptions made in this challenge
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The only assumptions made in this challenge were in the form the passwordReqs where used, in the code the PasswordField component has got a prop called passwordReqs which is represented as set of objects with properties as description and checker
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```ts
+type Requirements = {
+  numberReq: {
+    id: string | number;
+    description: string;
+    checker: typeof hasNumberChecker;
+  };
+  specialChars?: {
+    id: string | number;
+    description: string;
+    checker: typeof hasSpecialCharChecker;
+  };
+  upperCase?: {
+    id: string | number;
+    description: string;
+    checker: typeof hasUpperCaseChecker;
+  };
+  noConsecutive?: {
+    id: string | number;
+    description: string;
+    checker: typeof hasNoConsecutiveLetterChecker;
+  };
+};
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Only one of the requirements is mandatory as the doc states there should be one or more requirements in the component.
+
+## How would I improve stuff all around the project?
+
+I'd made requirement an independent type with only the structure of a requirement and then i'd use the requirements as an array of requirement
+
+```ts
+type Requirement = {
+    id: string | number;
+    description: string;
+    checker: () => RegExp;
+}
+
+requirement[]
+```
+
+This way the user would be able to bring his own filters to the password field.
+
+## Demo
+
+https://sworded.vercel.app/
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/tmchein/sworded
+```
+
+Go to the project directory
+
+```bash
+  cd sworded
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
+
